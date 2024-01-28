@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scissors Game</title>
+    {% load static %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        select {
+            padding: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        h2 {
+            margin-top: 30px;
+            color: #333;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        /* Add styles for hand symbols */
+        .hand-symbols {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+
+        }
+
+        .hand-symbol {
+            width: 100px;
+            height:100px;
+            margin: 0 20px;
+            border-radius:500%;
+            overflow:hidden;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .rotating {
+            animation: rotate 2s linear infinite;
+        }
+
+        .stopped {
+            animation: none;
+        }
+        #result{
+        color:green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rock-Paper-Scissors Game</h1>
+    <form method="post" action="{% url 'play_game' %}">
+        {% csrf_token %}
+
+    <label>Choose:</label>
+    <input type="radio" name="user_choice" value="rock" id="rock" >
+    <label for="rock">Rock</label>
+    <input type="radio" name="user_choice" value="paper" id="paper">
+    <label for="paper">Paper</label>
+    <input type="radio" name="user_choice" value="scissors" id="scissors">
+    <label for="scissors">Scissors</label>
+    <button type="submit">Play</button>
+</form>
+
+    </form>
+    <h2 id="result">Result: {{ result }}</h2>
+    <p>User's choice: {{ user_choice }}</p>
+    <p>Computer's choice: {{ computer_choice }}</p>
+
+    <!-- Display hand symbols for the player -->
+    <div class="hand-symbols">
+        <img  src="{% static 'rps_app/rock.png' %}" alt="Rock" class="hand-symbol rock-symbol rotating {% if user_choice == 'rock' %}stopped{% endif %}">
+        <img src="{% static 'rps_app/paper.png' %}" alt="Paper" class="hand-symbol paper-symbol rotating {% if user_choice == 'paper' %}stopped{% endif %}">
+        <img src="{% static 'rps_app/scissor.png' %}" alt="Scissors" class="hand-symbol scissors-symbol rotating {% if user_choice == 'scissors' %}stopped{% endif %}">
+    </div>
+
+    <!-- Display hand symbols for the computer -->
+    <div class="hand-symbols">
+        <img src="{% static 'rps_app/rock.png' %}" alt="Rock" class="hand-symbol rock-symbol rotating {% if computer_choice == 'rock' %}stopped{% endif %}">
+        <img src="{% static 'rps_app/paper.png' %}" alt="Paper" class="hand-symbol paper-symbol rotating {% if computer_choice == 'paper' %}stopped{% endif %}">
+        <img src="{% static 'rps_app/scissor.png' %}" alt="Scissors" class="hand-symbol scissors-symbol rotating {% if computer_choice == 'scissors' %}stopped{% endif %}">
+    </div>
+</body>
+</html>
